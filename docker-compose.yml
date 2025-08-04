@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  monitor-estudos:
+    build: .
+    image: monitor-estudos:latest
+    container_name: monitor-estudos
+    ports:
+      - "8501:8501"
+    volumes:
+      # Mapeia a pasta db para persistir o SQLite
+      - ./db:/app/db
+      # Opcional: se o app escreve algo em data, mapeie também
+      - ./data:/app/data
+    restart: unless-stopped
