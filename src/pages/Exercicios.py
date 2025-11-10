@@ -1,6 +1,6 @@
 import streamlit as st
 from db import save_exercise_session
-from config import db_conn, ref_df
+from config import ref_df
 from utils import generate_uuid, current_date
 
 st.header("Registro de Exercícios")
@@ -61,7 +61,7 @@ if st.session_state.confirmar_sessao:
                         'qtd_erradas': qtd_erradas,
                         'qtd_branco': qtd_branco
                     }
-                    save_exercise_session(db_conn, session)
+                    save_exercise_session(session)
                     st.success("Sessão de exercícios salva com sucesso!")
                     st.session_state.confirmar_sessao = False  # reseta
 

@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 from db import save_session
-from config import db_conn, ref_df, timer as t
+from config import ref_df, timer as t
 from utils import generate_uuid, current_date, seconds_to_hms
 from streamlit_autorefresh import st_autorefresh
 
@@ -50,7 +50,7 @@ with col4:
             'topic': topic,
             'duration_seconds': duration
         }
-        save_session(db_conn, session)
+        save_session(session)
         st.session_state['last_message'] = f"Sessão salva: {seconds_to_hms(duration)}."
         #st.success(f"Sessão salva: {seconds_to_hms(duration)}.")
 with col5:
@@ -61,33 +61,6 @@ with col5:
 
 if 'last_message' in st.session_state:
     st.success(st.session_state['last_message'])
-    
-# # Botões do cronômetro
-# col1, col2, col3, col4 = st.columns([1,1,1,1])
-# with col1:
-#     if st.button("Start"):
-#         t.start()
-# with col2:
-#     if st.button("Pause"):
-#         t.pause()
-# with col3:
-#     if st.button("Stop"):
-#         duration = t.stop()
-#         session = {
-#             'session_id': generate_uuid(),
-#             'date': current_date(),
-#             'discipline': discipline,
-#             'topic': topic,
-#             'duration_seconds': duration
-#         }
-#         save_session(db_conn, session)
-#         st.success(f"Sessão salva: {seconds_to_hms(duration)}.")
-# with col4:
-#     if st.button("Desconsiderar", key="discard", help="Zera esta sessão sem salvar"):
-#         # Zera o cronômetro sem salvar
-#         st.session_state.start_time = None
-#         st.session_state.accumulated = 0
-#         st.info("Sessão desconsiderada.")
 
 
 

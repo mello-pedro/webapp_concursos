@@ -1,13 +1,17 @@
 import streamlit as st
 import pandas as pd
-from config import db_conn, ref_df, timer as t
-from db import init_db
+from config import ref_df, timer as t
+from db import get_connection, init_db
 
-# Conecta ao banco e carrega todas as sessões
-conn = init_db('db/study_sessions.db')
-df_estudo = pd.read_sql_query("SELECT * FROM sessions", conn)
+DB_PATH = "db/study_sessions.db"
 
-df_exercicios = pd.read_sql_query("SELECT * FROM exercicio_sessoes", conn)
+# Inicializa o banco (garante que o arquivo existe e tabelas básicas também)
+init_db(DB_PATH)
+
+# Carrega os dados dentro de um bloco seguro
+with get_connection(DB_PATH) as conn:
+    df_estudo = pd.read_sql_query("SELECT * FROM sessions", conn)
+    df_exercicios = pd.read_sql_query("SELECT * FROM exercicio_sessoes", conn)
 
 # Expander para sessões de estudo
 with st.expander("📚 Sessões de Estudo", expanded=False):
